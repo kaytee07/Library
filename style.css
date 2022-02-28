@@ -1,0 +1,55 @@
+nav{
+   border-radius: 10px;
+   margin: 20px auto;
+   height: 100px;
+   background-color: #EDEEC9 ;
+}
+
+.App{
+    width: 90%;
+    margin: auto;
+}
+
+.collection{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 600;
+}
+
+.card{
+    background: #009FB7;
+    height: 250px;
+    width: 180px
+}
+
+.header{
+    margin: 30px 0;
+    font-family: 'Playfair Display', serif;
+}
+
+.navbar-brand{
+    font-family: 'Playfair Display', serif;
+}
+
+.main-card{
+    margin-bottom: 20px;
+}
+
+.con{
+    width: fit-content;
+    margin: 0 0;
+}
+
+.both{
+    display: flex;
+    justify-content: space-between;
+}
+
+.read{
+    padding: 0px 10px;
+    background-color: #ffd6af;
+    border-radius: 5px;
+    width: fit-content;
+    cursor: pointer;
+}

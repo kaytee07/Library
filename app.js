@@ -1,11 +1,12 @@
   
-  const tableBody = document.querySelector("tbody");
+  const collections = document.querySelector(".collection");
     const submit = document.querySelector(".submit");
     const form = document.querySelector("form");
     const title = document.querySelector("#title");
     const author = document.querySelector("#author");
     const pages = document.querySelector("#pages");
     const read = document.querySelector(".read");
+      
 
     function Library(){
       this.collection = [];
@@ -47,6 +48,7 @@
      if(this.alreadyExist()){
        return alert("it already exist")
      }
+     console.log(this)
      collection.push(this);
      library.increaseNumberOfBooks();
      render(collection);
@@ -95,43 +97,61 @@
      };
 
   
-     //user interface
+  //user interface
     
     function render(collection) {
-        let html = ``;
-        collection.map((book, index)=>{
-         let books = `
-              <tr>
-                    <th scope="row">${index}</th>
-                    <td>${book.name}</td>
-                    <td>${book.author}</td>
-                    <td>${book.numberOfPages}</td>
-                    <td class="read"><button>${
-                      book.read ? "read" : "unread"
-                    }</button></td>
-                    <td class="bin"><i class=" bi bi-trash"></i></td>
-                </tr>
+      let html = ``;
+      collection.map((book, index) => {
+        let books = `
+              
+                       <div class="main-card">
+                         <div
+                           class="card"
+                           style="color:white; margin-bottom: 1rem;"
+                         >
+                           <div style="text-align: center;">
+                             <h4>${book.name}</h4>
+                           </div>
+                           <div style="text-align: center;">
+                             <h5>
+                               Pages:<span>${book.numberOfPages}</span>
+                             </h5>
+                             <span style="display: none;">${index}</span>
+                           </div>
+                         </div>
+                         <p class="author">${book.author}</p>
+                         <div class="both">
+                           <p class="read d-flex">
+                             ${book.read ? "read" : "not read"}
+                             <span>
+                               <i class="bi bi-check2-all"></i>
+                             </span>
+                           </p>
+                           <i class="bin bi bi-trash"></i>
+                         </div>
+                       </div>
+  
             `;
-            html+= books
-        })
-        tableBody.innerHTML = html 
+        html += books;
+      });
+      collections.innerHTML = html;
 
-        const bin = document.querySelectorAll(".bin");
-        const readButton = document.querySelectorAll(".read")
-          bin.forEach(ele=>{
-            ele.addEventListener("click", function (event) {
-              removeBookFromLibrary(event.target.parentElement.parentElement.children[0].innerHTML)
-            });
-          })
-
-          readButton.forEach((ele) => {
-            ele.addEventListener("click", function (event) {
-              readit(
-                event.target.parentElement.parentElement.children[0].innerHTML
-              );
-            });
+      const bin = document.querySelectorAll(".bin");
+      const readButton = document.querySelectorAll(".read")
+        bin.forEach(ele=>{
+          ele.addEventListener("click", function (event) {
+                removeBookFromLibrary(event.target.parentElement.parentElement.firstElementChild.lastElementChild.lastElementChild.innerHTML)
           });
-        
+        })
+      
+
+      readButton.forEach((ele) => {
+          ele.addEventListener("click", function (event) {
+           readit(
+            event.target.parentElement.parentElement.firstElementChild.lastElementChild.lastElementChild.innerHTML
+             );
+                });
+              });
     }
 
     function addBookToLibrary(title, author, pages) {
@@ -144,19 +164,19 @@
 
     function removeBookFromLibrary(title){
       const books = collection[title];
-       if (collection.length <= 1){
-        books.removeFromLibrary();
-        localStorage.clear(
-          "libraryCollection",
-          JSON.stringify(library.collection)
-        )
-       }else{
-        books.removeFromLibrary();
-        localStorage.setItem(
-          "libraryCollection",
-          JSON.stringify(library.collection)
-        )
+      books.removeFromLibrary();
+       if (collection.length >= 1){
+          books.removeFromLibrary();
+          return localStorage.setItem(
+            "libraryCollection",
+            JSON.stringify(collection)
+          );    
        }
+        books.removeFromLibrary();
+        return localStorage.clear(
+          "libraryCollection",
+          JSON.stringify(library.collection)
+        );
     }
 
     function readit(title) {
@@ -175,7 +195,7 @@
         addBookToLibrary(title.value, author.value, pages.value)
     })
 
- 
+     
 
 
 
