@@ -11,9 +11,11 @@ nav{
 }
 
 .collection{
+    width: 1000px;
+    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     font-size: 600;
 }
 
@@ -34,6 +36,7 @@ nav{
 
 .main-card{
     margin-bottom: 20px;
+    margin-right: 20px;
 }
 
 .con{
