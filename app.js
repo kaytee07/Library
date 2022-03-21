@@ -8,10 +8,57 @@
     const read = document.querySelector(".read");
       
 
-    function Library(){
-      this.collection = [];
-      this.numberOfBooks = 0;
-      this.booksRead = 0;
+    class Library {
+      constructor() {
+        this.collection = [];
+        this.numberOfBooks = 0;
+        this.booksRead = 0;
+      }
+
+      increaseNumberOfBooks() {
+        library.numberOfBooks++;
+      }
+
+      decreaseNumberOfBooks() {
+        library.numberOfBooks--;
+      }
+
+      read() {
+        library.booksRead++;
+      }
+
+      notRead() {
+        library.booksRead--;
+      }
+
+      alreadyExist() {
+        let itExist = collection.some((books) => {
+          if (this.name === books.name) {
+            return true;
+          }
+        });
+        return itExist;
+      }
+
+      addBookToLibrary() {
+        if (this.alreadyExist()) {
+          return alert("it already exist");
+        }
+        console.log(this);
+        collection.push(this);
+        library.increaseNumberOfBooks();
+        render(collection);
+      }
+
+      removeFromLibrary() {
+        collection = collection.filter((books) => {
+          if (this.name !== books.name) {
+            return books;
+          }
+        });
+        library.decreaseNumberOfBooks();
+        render(collection);
+      }
     }
 
     const library = new Library();
@@ -19,57 +66,39 @@
     let collection = library.collection;
     render(collection);
 
-    Library.prototype.increaseNumberOfBooks = function(){
-      library.numberOfBooks++
-    }
+  
 
-    Library.prototype.decreaseNumberOfBooks = function(){
-      library.numberOfBooks--;
-    }
+    
 
-    Library.prototype.read = function(){
-      library.booksRead++;
-    }
+   
+    
 
-    Library.prototype.notRead = function () {
-      library.booksRead--;
-    };
+   
 
-    Library.prototype.alreadyExist = function(){
-      let itExist = collection.some((books)=>{
-        if(this.name === books.name){
-          return true
-        }
-      })
-      return itExist
-    }
+    
 
-    Library.prototype.addBookToLibrary = function(){
-     if(this.alreadyExist()){
-       return alert("it already exist")
+   class Book extends Library {
+     constructor(name, author, numberOfPages, read = false) {
+       super();
+       this.name = name;
+       this.author = author;
+       this.numberOfPages = numberOfPages;
+       this.read = read;
      }
-     console.log(this)
-     collection.push(this);
-     library.increaseNumberOfBooks();
-     render(collection);
-    }
 
-    Library.prototype.removeFromLibrary = function () {
-       collection = collection.filter((books) => {
-         if (this.name !== books.name) {
-           return books;
-         }
-       });
-        library.decreaseNumberOfBooks();
-        render(collection);
-     };
+     isRead() {
+       if (this.read) {
+         this.read = false;
+         library.notRead();
+       } else {
+         this.read = true;
+         library.read();
+       }
+       render(collection);
+     }
+   }
 
-    function Book(name, author, numberOfPages, read=false) {
-      this.name = name;
-      this.author = author;
-      this.numberOfPages = numberOfPages;
-      this.read = read;
-    }
+  
 
     Book.prototype = new Library();
 
@@ -85,16 +114,7 @@
        });
      }
 
-    Book.prototype.isRead = function () {
-      if(this.read){
-        this.read = false;
-        library.notRead()
-      }else{
-        this.read = true;
-        library.read();
-      }
-      render(collection);
-     };
+   
 
   
   //user interface
@@ -104,7 +124,7 @@
       collection.map((book, index) => {
         let books = `
               
-                       <div class="main-card">
+                       <div class="main-card" id="${index}">
                          <div
                            class="card"
                            style="color:white; margin-bottom: 1rem;"
@@ -124,7 +144,7 @@
                            <p class="read d-flex">
                              ${book.read ? "read" : "not read"}
                              <span>
-                               <i class="bi bi-check2-all"></i>
+                               
                              </span>
                            </p>
                            <i class="bin bi bi-trash"></i>
